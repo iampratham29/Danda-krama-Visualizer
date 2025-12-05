@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danda Krama Visualizer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Noto+Sans:wght@400;700&family=Noto+Serif:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .serif-font {
+            font-family: 'Noto Serif', serif;
+        }
+
+        /* Custom scrollbar for cleanliness */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-10 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-orange-600 text-white w-10 h-10 flex items-center justify-center rounded-lg font-bold text-xl serif-font">
+                    D
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 leading-tight">Danda Krama Visualizer</h1>
+                    <p class="text-xs text-slate-500">Algorithmic Vedic Recitation Generator</p>
+                </div>
+            </div>
+            <a href="https://hashnode.com" target="_blank" class="text-sm font-medium text-slate-500 hover:text-orange-600 transition-colors">
+                <i class="fa-solid fa-pen-nib mr-1"></i> Write on Hashnode
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
+        
+        <!-- Input Section -->
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-8">
+            <label for="inputText" class="block text-sm font-semibold text-slate-700 mb-2">
+                Enter Text / Shloka (Any Language)
+            </label>
+            <textarea 
+                id="inputText" 
+                rows="3" 
+                class="w-full p-4 rounded-lg border border-slate-300 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all resize-none serif-font text-lg placeholder:font-sans"
+                placeholder="e.g. Data is the new oil... or धर्मो रक्षति रक्षितः..."
+            >Data is the new oil</textarea>
+            
+            <div class="flex justify-between items-center mt-4">
+                <p class="text-xs text-slate-400">Takes up to 4 lines of text comfortably.</p>
+                <div class="flex gap-2">
+                    <button onclick="clearText()" class="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+                        Clear
+                    </button>
+                    <button onclick="generateDanda()" class="px-6 py-2 bg-orange-600 hover:bg-orange-700 text-white font-medium rounded-lg shadow-sm hover:shadow transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Sequence
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section (Hidden initially) -->
+        <div id="outputContainer" class="hidden space-y-8">
+            
+            <!-- Logic Visualization Cards -->
+            <div>
+                <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-layer-group text-orange-500"></i> Algorithm Visualization
+                </h2>
+                <div id="visualizerGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Cards will be injected here JS -->
+                </div>
+            </div>
+
+            <!-- Final Text Output -->
+            <div class="bg-slate-900 rounded-xl overflow-hidden shadow-lg">
+                <div class="bg-slate-800 px-4 py-3 border-b border-slate-700 flex justify-between items-center">
+                    <span class="text-slate-300 text-sm font-mono">Final Output</span>
+                    <button onclick="copyToClipboard()" class="text-xs bg-slate-700 hover:bg-slate-600 text-white px-3 py-1.5 rounded transition-colors border border-slate-600">
+                        <i class="fa-regular fa-copy mr-1"></i> Copy Text
+                    </button>
+                </div>
+                <div class="p-6">
+                    <p id="finalOutput" class="text-slate-300 font-mono text-sm leading-relaxed whitespace-pre-wrap"></p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Empty State / Placeholder -->
+        <div id="emptyState" class="text-center py-12 opacity-60">
+            <div class="inline-block p-4 rounded-full bg-slate-100 mb-4">
+                <i class="fa-solid fa-scroll text-3xl text-slate-400"></i>
+            </div>
+            <p class="text-slate-500">Enter text above to visualize the ancient algorithm.</p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-6">
+        <div class="container mx-auto px-4 text-center text-slate-400 text-sm">
+            <p>&copy; 2025 Danda Krama Visualizer. Built for learning.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function generateDanda() {
+            const input = document.getElementById('inputText').value.trim();
+            const outputContainer = document.getElementById('outputContainer');
+            const emptyState = document.getElementById('emptyState');
+            const grid = document.getElementById('visualizerGrid');
+            const finalOutput = document.getElementById('finalOutput');
+
+            // Basic Validation
+            if (!input) {
+                alert("Please enter some text first!");
+                return;
+            }
+
+            // 1. Tokenization: Split by whitespace, filtering out empty strings
+            // We keep punctuation attached to words for simplicity in this demo, 
+            // though strict recitation would strip them.
+            const words = input.split(/\s+/).filter(w => w.length > 0);
+
+            if (words.length < 2) {
+                alert("Need at least 2 words to generate a sequence.");
+                return;
+            }
+
+            // Reset UI
+            grid.innerHTML = '';
+            let finalSequenceText = "";
+
+            // 2. The Algorithm Loop
+            // Iterate up to length-1 to get pairs (i, i+1)
+            for (let i = 0; i < words.length - 1; i++) {
+                const w1 = words[i];
+                const w2 = words[i+1];
+
+                // The Jata/Danda Logic: AB BA AB
+                const forward1 = `${w1} ${w2}`;
+                const reverse = `${w2} ${w1}`;
+                const forward2 = `${w1} ${w2}`;
+
+                // Construct text representation
+                const segmentText = `${forward1}, ${reverse}, ${forward2}`;
+                
+                // Add separator for final text (standard uses // or |)
+                finalSequenceText += (i === 0 ? "" : " // ") + segmentText;
+
+                // Create Visual Card
+                const card = document.createElement('div');
+                card.className = "bg-white p-4 rounded-lg border border-slate-200 shadow-sm hover:shadow-md transition-shadow fade-in border-l-4 border-l-orange-500";
+                card.style.animationDelay = `${i * 0.05}s`; // Staggered animation
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Step ${i + 1}</span>
+                        <span class="text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">Window [${i}, ${i+1}]</span>
+                    </div>
+                    <div class="flex flex-col gap-2 font-medium text-slate-700 serif-font text-lg">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right-long text-slate-300 text-sm"></i> 
+                            <span>${w1} <span class="text-orange-600">${w2}</span></span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-left-long text-slate-300 text-sm"></i> 
+                            <span><span class="text-orange-600">${w2}</span> ${w1}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-arrow-right-long text-slate-300 text-sm"></i> 
+                            <span>${w1} <span class="text-orange-600">${w2}</span></span>
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(card);
+            }
+
+            // Update Final Text
+            finalOutput.textContent = finalSequenceText;
+
+            // Toggle Visibility
+            emptyState.classList.add('hidden');
+            outputContainer.classList.remove('hidden');
+        }
+
+        function clearText() {
+            document.getElementById('inputText').value = '';
+            document.getElementById('outputContainer').classList.add('hidden');
+            document.getElementById('emptyState').classList.remove('hidden');
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById('finalOutput').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                // Show temporary feedback
+                const btn = document.querySelector('button[onclick="copyToClipboard()"]');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-check mr-1"></i> Copied!';
+                btn.classList.remove('bg-slate-700', 'text-white');
+                btn.classList.add('bg-green-600', 'text-white', 'border-green-600');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.add('bg-slate-700', 'text-white');
+                    btn.classList.remove('bg-green-600', 'text-white', 'border-green-600');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
