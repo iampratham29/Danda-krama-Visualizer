@@ -1,1 +1,1 @@
-https://prathamvector.hashnode.dev/deconstructing-danda-krama
+https://medium.com/@iampratham29/deconstructing-danda-krama-the-algorithms-of-oral-tradition-fa39029a7652
