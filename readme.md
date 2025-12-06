@@ -1,1 +1,1 @@
-https://prathamvector.hashnode.dev/deconstructing-danda-krama-the-algorithms-of-oral-tradition
+https://prathamvector.hashnode.dev/deconstructing-danda-krama
